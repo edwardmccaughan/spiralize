@@ -4,6 +4,7 @@ window.Sketch = require('sketch-js')
 
 var orbs = []
 
+
 window.sketch = Sketch.create()
 window.center = {
       x: sketch.width / 2,
@@ -16,27 +17,26 @@ window.clear = function(){
     orbs.length = 0; 
   }
 
+// var createOrb = function( config ){
+//   var x = ( config && config.x ) ? config.x : sketch.mouse.x,
+//       y = ( config && config.y ) ? config.y : sketch.mouse.y;
+//   orbs.push( new Orb( x, y, random(0,100), 10) );
+// };
 
-var createOrb = function( config ){
-  var x = ( config && config.x ) ? config.x : sketch.mouse.x,
-      y = ( config && config.y ) ? config.y : sketch.mouse.y;
-  orbs.push( new Orb( x, y, random(0,100)) );
-};
+// var turnOnMove = function(){
+//   sketch.mousemove = createOrb; 
+// };
 
-var turnOnMove = function(){
-  sketch.mousemove = createOrb; 
-};
+// var turnOffMove = function(){
+//   sketch.mousemove = null;  
+// };
 
-var turnOffMove = function(){
-  sketch.mousemove = null;  
-};
+// sketch.mousedown = function(){
+//   createOrb();
+//   turnOnMove();
+// };
 
-sketch.mousedown = function(){
-  createOrb();
-  turnOnMove();
-};
-
-sketch.mouseup = turnOffMove;
+// sketch.mouseup = turnOffMove;
 
 sketch.resize = function(){
   center.x = sketch.width / 2;
@@ -44,16 +44,16 @@ sketch.resize = function(){
   sketch.lineCap = 'round';
 };
 
-sketch.setup = function(){  
-  // var count = 100
-  var count = 0
-  while( count-- ){
-    createOrb( {
-      x: random( sketch.width / 2 - 300, sketch.width / 2 + 300 ), 
-      y: random( sketch.height / 2 - 300, sketch.height / 2 + 300 ) 
-    } );
-  };
-};
+// sketch.setup = function(){  
+//   // var count = 100
+//   var count = 0
+//   while( count-- ){
+//     createOrb( {
+//       x: random( sketch.width / 2 - 300, sketch.width / 2 + 300 ), 
+//       y: random( sketch.height / 2 - 300, sketch.height / 2 + 300 ) 
+//     } );
+//   };
+// };
 
 sketch.clear = function(){
   sketch.globalCompositeOperation = 'destination-out';
@@ -105,13 +105,19 @@ var key_down = function(key) {
   var orb = new Orb(
     x,
     y,
-    hue)
+    hue,
+    key
+  )
 
   orbs.push(orb);
 }
 
 var key_up = function(key) {
+  var unreleased_orbs = orbs.filter(orb => {
+    return (orb.midi_key === key) && (orb.still_pressed)
+  })
 
+  unreleased_orbs[0].still_pressed = false
 }
 
 new MidiController( (key) => { key_down(key) }, (key) => { key_up(key)} )
