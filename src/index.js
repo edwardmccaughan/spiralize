@@ -20,7 +20,7 @@ window.clear = function(){
 var createOrb = function( config ){
   var x = ( config && config.x ) ? config.x : sketch.mouse.x,
       y = ( config && config.y ) ? config.y : sketch.mouse.y;
-  orbs.push( new Orb( x, y ) );
+  orbs.push( new Orb( x, y, random(0,100)) );
 };
 
 var turnOnMove = function(){
@@ -78,13 +78,8 @@ sketch.update = function(){
 sketch.draw = function(){
   sketch.save();
   sketch.translate( center.x, center.y );
-  // var i = orbs.length;
-  // while( i-- ){ 
-  //   orbs[i].render(); 
-  // }
-  orbs.forEach((orb) => {
-    orb.render();
-  })
+
+  orbs.forEach((orb) => { orb.render(); })
   sketch.restore();
 };
 
@@ -95,12 +90,26 @@ document.onselectstart = function(){
 };
 
 
-var key_down = function(key) {
-  createOrb({
-      x: ((sketch.width / 2 ) - (key * 8)), 
-      y: (sketch.height / 2) 
-    });
+var hue_for_midi_key = function(key) {
+  // % 12 to figure out which key in the octave,
+  // then split across the 360 of the color wheel
+  return (key % 12) * 30
 }
+
+var key_down = function(key) {
+  var hue = hue_for_midi_key(key)
+  console.log(hue)
+  var x = (sketch.width / 2 ) - (key * 8)
+  var y = sketch.height / 2
+
+  var orb = new Orb(
+    x,
+    y,
+    hue)
+
+  orbs.push(orb);
+}
+
 var key_up = function(key) {
 
 }

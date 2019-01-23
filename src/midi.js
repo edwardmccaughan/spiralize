@@ -14,9 +14,9 @@ export class MidiController {
       this.setup_interaction_midi(this.keyboards.keystation_mini())
       // this.setup_page_switcher_midi(this.keyboards.keystation_mini())
 
-      // this.keyboards.everything_but_mini_keyboards().forEach((keyboard) => {
-      //   this.setup_interaction_midi(keyboard)
-      // })
+      this.keyboards.everything_but_mini_keyboards().forEach((keyboard) => {
+        this.setup_interaction_midi(keyboard)
+      })
     })
   }
 
