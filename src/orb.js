@@ -2,6 +2,7 @@ export class Orb {
   constructor(x,y, hue, midi_key, midi_key_velocity) {
     this.hue = hue
     this.midi_key = midi_key;
+    this.midi_key_velocity = midi_key_velocity;
 
     var dx = x - center.x
     var dy = y - center.y ;
@@ -13,18 +14,12 @@ export class Orb {
     this.lineWidth = ( this.radius / 300 ) + 1;
 
     this.global_speed = 65
-    const key_velocity_factor = midi_key_velocity / 2200000 
-    // this.speed_modifier = (key_velocity_factor / 300000 ) * ( this.radius ) + 0.015;
-    this.speed_modifier = key_velocity_factor  * ( this.radius ) + 0.015;
-    console.log(midi_key_velocity, key_velocity_factor)
-
-
-    //0.000021666666666666667 is a sane number for the speed modifier, fast makes motion sickness
+    this.set_speed_modifier()
 
     this.still_pressed = true
     this.alive = true
     this.dying = false
-    this.alive_time = 3000
+    this.alive_time = 5000
 
   }
 
@@ -59,5 +54,23 @@ export class Orb {
     sketch.stroke();
     sketch.closePath();
   };
+
+  set_speed_modifier(){
+    //0.00002 is a sane number for the speed modifier, any faster makes me dizzy
+    
+    
+
+    // this was the original, with semi random. it looked cool, but was a bit dizzy inducing and
+    // felt like there was less control for the user
+    // this.speed_modifier = ( random( 1, 10 ) / 300000 ) * ( this.radius ) + 0.015;
+
+    // using the velocity to affect the speed was kind of neat, but also disorientating
+    // const key_velocity_factor = this.midi_key_velocity / 2200000 
+    // this.speed_modifier = (key_velocity_factor / 300000 ) * ( this.radius ) + 0.015;
+
+    // having a fixed number currently looks best. The value was arrived by trying random things until
+    // I found a value that didn't make me dizzy :-p
+    this.speed_modifier = (0.000000005 ) * ( this.radius ) + 0.015;
+  }
 
 }
