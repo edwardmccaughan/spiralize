@@ -5,7 +5,7 @@ const webpack = require('webpack');
 module.exports = {
   entry: { 
     app: './src/index.js',
-    'production-dependencies': ['phaser']
+    'production-dependencies': ['sketch-js']
   },
 
   output: {
