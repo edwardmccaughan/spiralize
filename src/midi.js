@@ -11,12 +11,12 @@ export class MidiController {
       if(err) { console.log(err) }
 
       this.keyboards = new Keyboards()    
-      this.setup_page_switcher_midi(this.keyboards.keystation_mini())
+      this.setup_interaction_midi(this.keyboards.keystation_mini())
+      // this.setup_page_switcher_midi(this.keyboards.keystation_mini())
 
-      this.keyboards.everything_but_mini_keyboards().forEach((keyboard) => {
-        this.setup_interaction_midi(keyboard)
-      })
-      // this.setup_interaction_midi(this.keyboards.everything_but_mini_keyboards())
+      // this.keyboards.everything_but_mini_keyboards().forEach((keyboard) => {
+      //   this.setup_interaction_midi(keyboard)
+      // })
     })
   }
 

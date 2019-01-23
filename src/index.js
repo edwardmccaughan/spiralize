@@ -1,6 +1,6 @@
-// import 'sketch-js'
-window.Sketch = require('sketch-js')
+import { MidiController } from './midi'
 import { Orb } from './orb'
+window.Sketch = require('sketch-js')
 
 var orbs = []
 
@@ -11,7 +11,7 @@ window.center = {
     }
 window.dt = 1
 window.clearAlpha = 10
-window.clear: function(){
+window.clear = function(){
     sketch.clearRect( 0, 0, sketch.width, sketch.height ),
     orbs.length = 0; 
   }
@@ -45,7 +45,8 @@ sketch.resize = function(){
 };
 
 sketch.setup = function(){  
-  var count = 100
+  // var count = 100
+  var count = 0
   while( count-- ){
     createOrb( {
       x: random( sketch.width / 2 - 300, sketch.width / 2 + 300 ), 
@@ -64,19 +65,26 @@ sketch.clear = function(){
 sketch.update = function(){
   dt = ( sketch.dt < 0.1 ) ? 0.1 : sketch.dt / 16;
   dt = ( dt > 5 ) ? 5 : dt;
-  var i = orbs.length;
-  while( i-- ){ 
-    orbs[i].update();
-  }
+
+  orbs.forEach((orb) => {
+    if(orb.alive) {
+      orb.update();
+    } else {
+      orbs = orbs.filter(item => item !== orb)
+    }
+  })
 };
 
 sketch.draw = function(){
   sketch.save();
   sketch.translate( center.x, center.y );
-  var i = orbs.length;
-  while( i-- ){ 
-    orbs[i].render(); 
-  }
+  // var i = orbs.length;
+  // while( i-- ){ 
+  //   orbs[i].render(); 
+  // }
+  orbs.forEach((orb) => {
+    orb.render();
+  })
   sketch.restore();
 };
 
@@ -87,6 +95,17 @@ document.onselectstart = function(){
 };
 
 
+var key_down = function(key) {
+  createOrb({
+      x: ((sketch.width / 2 ) - (key * 8)), 
+      y: (sketch.height / 2) 
+    });
+}
+var key_up = function(key) {
+
+}
+
+new MidiController( (key) => { key_down(key) }, (key) => { key_up(key)} )
 
 
 

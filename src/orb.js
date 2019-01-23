@@ -12,6 +12,11 @@ export class Orb {
 
     // not sure how this interacts with global_speed. Does every orb move slightly slower or faster?
     this.speed = ( random( 1, 10 ) / 300000 ) * ( this.radius ) + 0.015;
+
+
+    this.alive_time = 3000
+    this.alive = true
+    setTimeout(()=> { this.alive = false; console.log('dead')}, this.alive_time)
   }
 
   update(){  
