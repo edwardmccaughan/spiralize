@@ -1,5 +1,5 @@
 export class Orb {
-  constructor(x,y, hue, midi_key) {
+  constructor(x,y, hue, midi_key, midi_key_velocity) {
     this.hue = hue
     this.midi_key = midi_key;
 
@@ -13,12 +13,18 @@ export class Orb {
     this.lineWidth = ( this.radius / 300 ) + 1;
 
     this.global_speed = 65
-    this.speed_modifier = ( random( 1, 10 ) / 300000 ) * ( this.radius ) + 0.015;
+    const key_velocity_factor = midi_key_velocity / 2200000 
+    // this.speed_modifier = (key_velocity_factor / 300000 ) * ( this.radius ) + 0.015;
+    this.speed_modifier = key_velocity_factor  * ( this.radius ) + 0.015;
+    console.log(midi_key_velocity, key_velocity_factor)
+
+
+    //0.000021666666666666667 is a sane number for the speed modifier, fast makes motion sickness
 
     this.still_pressed = true
     this.alive = true
-    // this.alive_time = 3000
-    // setTimeout(()=> { this.alive = false; console.log('dead')}, this.alive_time)
+    this.dying = false
+    this.alive_time = 3000
 
   }
 
@@ -26,11 +32,10 @@ export class Orb {
     this.lastAngle = this.angle;
     this.angle += this.speed_modifier * ( this.global_speed / 50 ) * dt;
 
-    if(!this.still_pressed) {
-      console.log('released')
-      this.alive_time = 3000
-      this.alive = true
-      setTimeout(()=> { this.alive = false; console.log('dead')}, this.alive_time)
+    if(!this.still_pressed && !this.dying) {
+      // this.alive = true
+      this.dying = true
+      setTimeout(()=> { this.alive = false;}, this.alive_time)
     }
   };
 

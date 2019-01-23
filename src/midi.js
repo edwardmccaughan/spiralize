@@ -30,8 +30,9 @@ export class MidiController {
     
     keyboard.addListener('noteon', "all", (e) => {
       const key = this.key_to_x(e.data[1])
-      console.log("interaction pressed:", e.data[1] )
-      this.key_pressed(key)
+      const velocity = this.key_to_x(e.data[2])
+      console.log("interaction pressed:", e.data[1],e.data[2] )
+      this.key_pressed(key, velocity)
     });
 
     keyboard.addListener('noteoff', "all", (e) => {
