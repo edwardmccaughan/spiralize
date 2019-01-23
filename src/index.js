@@ -1,64 +1,31 @@
 // import 'sketch-js'
 window.Sketch = require('sketch-js')
+import { Orb } from './orb'
 
-var sketch = Sketch.create(),
-    center = {
-      x: sketch.width / 2,
-      y: sketch.height / 2
-    },
-    orbs = [],    
-    dt = 1,
+var orbs = [],    
     opt = {
       total: 0,
       count: 100,
       spacing: 2,
       speed: 65,
-      scale: 1,
-      jitterRadius: 0,
-      jitterHue: 0,
+      // scale: 1,
       clearAlpha: 10,
-      toggleOrbitals: true,
       orbitalAlpha: 100,
-      toggleLight: true,      
-      lightAlpha: 5,
       clear: function(){
         sketch.clearRect( 0, 0, sketch.width, sketch.height ),
         orbs.length = 0; 
       }
     };
 
-var Orb = function( x, y ){
-  var dx = ( x / opt.scale ) - ( center.x / opt.scale ),
-      dy = ( y / opt.scale ) - ( center.y / opt.scale );
-  this.angle = atan2( dy, dx );
-  this.lastAngle = this.angle;
-  this.radius = sqrt( dx * dx + dy * dy );
-  this.size = ( this.radius / 300 ) + 1;
-  this.speed = ( random( 1, 10 ) / 300000 ) * ( this.radius ) + 0.015;
-};
+window.sketch = Sketch.create()
+window.center = {
+      x: sketch.width / 2,
+      y: sketch.height / 2
+    }
+window.dt = 1
 
-Orb.prototype.update = function(){  
-  this.lastAngle = this.angle;
-  this.angle += this.speed * ( opt.speed / 50 ) * dt;
-  this.x = this.radius * cos( this.angle );
-  this.y = this.radius * sin( this.angle );
-};
 
-Orb.prototype.render = function(){
-  
-  var radius = ( opt.jitterRadius === 0 ) ? this.radius : this.radius + random( -opt.jitterRadius, opt.jitterRadius );
- radius = ( opt.jitterRadius != 0 && radius < 0 ) ? 0.001 : radius;
-  sketch.strokeStyle = 'hsla( ' + ( ( this.angle + 90 ) / ( PI / 180 ) + random( -opt.jitterHue, opt.jitterHue ) ) + ', 100%, 50%, ' + ( opt.orbitalAlpha / 100 ) + ' )';
-  sketch.lineWidth = this.size;     
-  sketch.beginPath();
-  if(opt.speed >= 0){
-    sketch.arc( 0, 0, radius, this.lastAngle, this.angle + 0.001, false );
-  } else {
-    sketch.arc( 0, 0, radius, this.angle, this.lastAngle + 0.001, false );
-  };
-  sketch.stroke();
-  sketch.closePath();
-};
+
 
 var createOrb = function( config ){
   var x = ( config && config.x ) ? config.x : sketch.mouse.x,
@@ -107,7 +74,7 @@ sketch.update = function(){
   dt = ( sketch.dt < 0.1 ) ? 0.1 : sketch.dt / 16;
   dt = ( dt > 5 ) ? 5 : dt;
   var i = orbs.length;
-  opt.total = i;
+  // opt.total = i;
   while( i-- ){ 
     orbs[i].update();
   }
@@ -116,7 +83,7 @@ sketch.update = function(){
 sketch.draw = function(){
   sketch.save();
   sketch.translate( center.x, center.y );
-  sketch.scale( opt.scale, opt.scale );
+  // sketch.scale( opt.scale, opt.scale );
   var i = orbs.length;
   while( i-- ){ 
     orbs[i].render(); 
