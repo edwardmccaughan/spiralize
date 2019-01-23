@@ -1,7 +1,6 @@
 export class Orb {
   constructor(x,y) {
-
-    this.opt_speed = 65
+    this.global_speed = 65
     this.color_alpha = 100;
 
     var dx = x - center.x
@@ -10,12 +9,14 @@ export class Orb {
     this.lastAngle = this.angle;
     this.radius = sqrt( dx * dx + dy * dy );
     this.size = ( this.radius / 300 ) + 1;
+
+    // not sure how this interacts with global_speed. Does every orb move slightly slower or faster?
     this.speed = ( random( 1, 10 ) / 300000 ) * ( this.radius ) + 0.015;
   }
 
   update(){  
     this.lastAngle = this.angle;
-    this.angle += this.speed * ( this.opt_speed / 50 ) * dt;
+    this.angle += this.speed * ( this.global_speed / 50 ) * dt;
     // this.x = this.radius * cos( this.angle ); // not currently using these, but maybe it's useful someday
     // this.y = this.radius * sin( this.angle );
   };

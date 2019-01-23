@@ -2,20 +2,7 @@
 window.Sketch = require('sketch-js')
 import { Orb } from './orb'
 
-var orbs = [],    
-    opt = {
-      total: 0,
-      count: 100,
-      spacing: 2,
-      speed: 65,
-      // scale: 1,
-      clearAlpha: 10,
-      orbitalAlpha: 100,
-      clear: function(){
-        sketch.clearRect( 0, 0, sketch.width, sketch.height ),
-        orbs.length = 0; 
-      }
-    };
+var orbs = []
 
 window.sketch = Sketch.create()
 window.center = {
@@ -23,8 +10,11 @@ window.center = {
       y: sketch.height / 2
     }
 window.dt = 1
-
-
+window.clearAlpha = 10
+window.clear: function(){
+    sketch.clearRect( 0, 0, sketch.width, sketch.height ),
+    orbs.length = 0; 
+  }
 
 
 var createOrb = function( config ){
@@ -55,7 +45,8 @@ sketch.resize = function(){
 };
 
 sketch.setup = function(){  
-  while( opt.count-- ){
+  var count = 100
+  while( count-- ){
     createOrb( {
       x: random( sketch.width / 2 - 300, sketch.width / 2 + 300 ), 
       y: random( sketch.height / 2 - 300, sketch.height / 2 + 300 ) 
@@ -65,7 +56,7 @@ sketch.setup = function(){
 
 sketch.clear = function(){
   sketch.globalCompositeOperation = 'destination-out';
-  sketch.fillStyle = 'rgba( 0, 0, 0 , ' + ( opt.clearAlpha / 100 ) + ' )';
+  sketch.fillStyle = 'rgba( 0, 0, 0 , ' + ( clearAlpha / 100 ) + ' )';
   sketch.fillRect( 0, 0, sketch.width, sketch.height );
   sketch.globalCompositeOperation = 'lighter';
 };
@@ -74,7 +65,6 @@ sketch.update = function(){
   dt = ( sketch.dt < 0.1 ) ? 0.1 : sketch.dt / 16;
   dt = ( dt > 5 ) ? 5 : dt;
   var i = orbs.length;
-  // opt.total = i;
   while( i-- ){ 
     orbs[i].update();
   }
@@ -83,7 +73,6 @@ sketch.update = function(){
 sketch.draw = function(){
   sketch.save();
   sketch.translate( center.x, center.y );
-  // sketch.scale( opt.scale, opt.scale );
   var i = orbs.length;
   while( i-- ){ 
     orbs[i].render(); 
