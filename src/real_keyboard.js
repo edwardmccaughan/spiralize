@@ -20,7 +20,8 @@ export class RealKeyboard {
           Digit3: "so_many_vs",
           Digit4: "voronoi_sparkles",
           Digit5: "walkers",
-          Digit6: "waaaaaaves"
+          Digit6: "waaaaaaves",
+          Digit7: "spiralize"
       }
       var page = pages[event.code]
 

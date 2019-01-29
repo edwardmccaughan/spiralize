@@ -56,10 +56,6 @@ export class Orb {
   };
 
   set_speed_modifier(){
-    //0.00002 is a sane number for the speed modifier, any faster makes me dizzy
-    
-    
-
     // this was the original, with semi random. it looked cool, but was a bit dizzy inducing and
     // felt like there was less control for the user
     // this.speed_modifier = ( random( 1, 10 ) / 300000 ) * ( this.radius ) + 0.015;

@@ -1,4 +1,5 @@
 import { MidiController } from './midi'
+import { RealKeyboard } from './real_keyboard'
 import { Orb } from './orb'
 window.Sketch = require('sketch-js')
 
@@ -88,6 +89,7 @@ var key_up = function(key) {
 }
 
 new MidiController( (key, velocity) => { key_down(key, velocity) }, (key) => { key_up(key)} )
+new RealKeyboard( (key, velocity) => { key_down(key) }, (key) => { key_up(key)} )
 
 
 
