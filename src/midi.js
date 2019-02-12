@@ -66,7 +66,8 @@ export class MidiController {
         55: "voronoi_sparkles",
         57: "walkers",
         59: "waaaaaaves",
-        60: "spiralize"
+        60: "spiralize",
+        62: "dots_everywhere"
     }
 
     var page = pages[key]
